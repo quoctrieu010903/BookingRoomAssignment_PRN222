@@ -11,10 +11,10 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
 {
     public class GenericRepository<T>  : IGenericRepository<T> where T : class
     {
-        private readonly BookingRoomUniversityContext _context;
+        private readonly BookingRoomUniversityDbContext _context;
         private DbSet<T> _table = null;
 
-        public GenericRepository(BookingRoomUniversityContext context)
+        public GenericRepository(BookingRoomUniversityDbContext context)
         {
             _context = context;
             _table = _context.Set<T>(); ;

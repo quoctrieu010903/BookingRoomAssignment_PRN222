@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BoookingRoomUniversity.Assignment.Repositories.Enums;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities;
 
@@ -15,7 +16,7 @@ public partial class Room
 
     public string? Description { get; set; }
 
-    public int? Status { get; set; }
+    public RoomStatus Status { get; set; }
 
     public DateTime? CreatedTime { get; set; }
 
