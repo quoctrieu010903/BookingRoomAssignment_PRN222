@@ -10,11 +10,11 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly BookingRoomUniversityContext _context;
+        private readonly BookingRoomUniversityDbContext _context;
         private IDbContextTransaction _transaction;
 
 
-        public UnitOfWork(BookingRoomUniversityContext context)
+        public UnitOfWork(BookingRoomUniversityDbContext context)
         {
             _context = context;
 

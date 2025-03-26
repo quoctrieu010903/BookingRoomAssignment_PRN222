@@ -1,3 +1,5 @@
+using System;
+using BoookingRoomUniversity.Assignment.Repositories.Data;
 using BoookingRoomUniversity.Assignment.Repositories.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,8 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<BookingRoomUniversityContext>(options => options.UseSqlServer("DefaultConnectionString"));
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionStringDB");
+builder.Services.AddDbContext<BookingRoomUniversityDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
@@ -23,6 +26,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 app.UseAuthorization();
 
 app.MapRazorPages();

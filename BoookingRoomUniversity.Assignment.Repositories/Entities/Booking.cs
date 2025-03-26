@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BoookingRoomUniversity.Assignment.Repositories.Enums;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities;
 
@@ -17,7 +18,7 @@ public partial class Booking
 
     public string? Description { get; set; }
 
-    public int? Status { get; set; }
+    public BookingStatus Status { get; set; }
 
     public DateTime? CreatedTime { get; set; }
 
