@@ -10,7 +10,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly BookingRoomUniversityDbContext _context;
+        private  BookingRoomUniversityDbContext _context;
         private IDbContextTransaction _transaction;
 
 
