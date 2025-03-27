@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
 {
     /// <inheritdoc />
-    public partial class FixCascadeIssue : Migration
+    public partial class SeedingData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,13 +52,13 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CampusId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: true),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CampusId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,8 +67,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                         name: "FK_Departments_Campuses_CampusId",
                         column: x => x.CampusId,
                         principalTable: "Campuses",
-                        principalColumn: "CampusId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CampusId");
                 });
 
             migrationBuilder.CreateTable(
@@ -77,14 +76,14 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 {
                     RoomId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CampusId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CampusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,13 +105,11 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DepartmentId1 = table.Column<int>(type: "int", nullable: true),
-                    RoleId1 = table.Column<int>(type: "int", nullable: true)
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -121,22 +118,10 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                         name: "FK_Users_Departments_DepartmentId",
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
-                        principalColumn: "DepartmentId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Departments_DepartmentId1",
-                        column: x => x.DepartmentId1,
-                        principalTable: "Departments",
                         principalColumn: "DepartmentId");
                     table.ForeignKey(
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId1",
-                        column: x => x.RoleId1,
                         principalTable: "Roles",
                         principalColumn: "RoleId");
                 });
@@ -151,12 +136,11 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     RoomId = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RoomId1 = table.Column<int>(type: "int", nullable: true)
+                    DeleteTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -168,15 +152,11 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                         principalColumn: "RoomId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bookings_Rooms_RoomId1",
-                        column: x => x.RoomId1,
-                        principalTable: "Rooms",
-                        principalColumn: "RoomId");
-                    table.ForeignKey(
                         name: "FK_Bookings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,22 +188,41 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 columns: new[] { "CampusId", "CreatedTime", "DeleteTime", "Location", "Name", "UpdatedTime" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5569), null, "Khu Công Nghệ Cao, Quận 9, TP.HCM", "FPT University Hồ Chí Minh", null },
-                    { 2, new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5593), null, "Hòa Lạc, Thạch Thất, Hà Nội", "FPT University Hà Nội", null },
-                    { 3, new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5595), null, "Quận Ninh Kiều, TP. Cần Thơ", "FPT University Cần Thơ", null },
-                    { 4, new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5597), null, "Ngũ Hành Sơn, TP. Đà Nẵng", "FPT University Đà Nẵng", null },
-                    { 5, new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5599), null, "Khu Đô thị Khoa học Quy Hòa, TP. Quy Nhơn", "FPT University Quy Nhơn", null }
+                    { 1, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9283), null, "Khu Công Nghệ Cao, Quận 9, TP.HCM", "FPT University Hồ Chí Minh", null },
+                    { 2, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9299), null, "Hòa Lạc, Thạch Thất, Hà Nội", "FPT University Hà Nội", null },
+                    { 3, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9301), null, "Quận Ninh Kiều, TP. Cần Thơ", "FPT University Cần Thơ", null },
+                    { 4, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9302), null, "Ngũ Hành Sơn, TP. Đà Nẵng", "FPT University Đà Nẵng", null },
+                    { 5, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9303), null, "Khu Đô thị Khoa học Quy Hòa, TP. Quy Nhơn", "FPT University Quy Nhơn", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "DepartmentId", "CampusId", "CreatedTime", "DeleteTime", "Description", "Name", "Status", "UpdatedTime" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9416), null, "Software Development Department", "Software Engineering", 1, null },
+                    { 2, 2, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9418), null, "Business & Marketing Department", "Business Administration", 1, null },
+                    { 3, 3, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9420), null, "AI Research Department", "Artificial Intelligence", 1, null },
+                    { 4, 4, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9422), null, "Cyber Security Department", "Cyber Security", 1, null },
+                    { 5, 5, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9423), null, "Data Analytics Department", "Data Science", 1, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Rooms",
+                columns: new[] { "RoomId", "CampusId", "Capacity", "CreatedTime", "DeleteTime", "Description", "Name", "Status", "UpdatedTime" },
+                values: new object[,]
+                {
+                    { 1, 1, 50, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9471), null, "Lecture Hall", "Room A101", 0, null },
+                    { 2, 2, 30, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9475), null, "Computer Lab", "Room B202", 0, null },
+                    { 3, 3, 40, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9476), null, "Seminar Room", "Room C303", 1, null },
+                    { 4, 4, 20, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9478), null, "Meeting Room", "Room D404", 1, null },
+                    { 5, 5, 60, new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9480), null, "Conference Hall", "Room E505", 0, null }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
                 column: "RoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_RoomId1",
-                table: "Bookings",
-                column: "RoomId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_UserId",
@@ -251,19 +250,9 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_DepartmentId1",
-                table: "Users",
-                column: "DepartmentId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId1",
-                table: "Users",
-                column: "RoleId1");
         }
 
         /// <inheritdoc />

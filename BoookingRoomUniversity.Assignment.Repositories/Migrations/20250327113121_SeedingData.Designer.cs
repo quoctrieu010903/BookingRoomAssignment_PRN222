@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
 {
     [DbContext(typeof(BookingRoomUniversityDbContext))]
-    [Migration("20250326160454_FixCascadeIssue")]
-    partial class FixCascadeIssue
+    [Migration("20250327113121_SeedingData")]
+    partial class SeedingData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,22 +33,20 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
-                    b.Property<DateTime?>("CreatedTime")
+                    b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeleteTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoomId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
@@ -66,8 +64,6 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     b.HasKey("BookingId");
 
                     b.HasIndex("RoomId");
-
-                    b.HasIndex("RoomId1");
 
                     b.HasIndex("UserId");
 
@@ -107,35 +103,35 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                         new
                         {
                             CampusId = 1,
-                            CreatedTime = new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5569),
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9283),
                             Location = "Khu Công Nghệ Cao, Quận 9, TP.HCM",
                             Name = "FPT University Hồ Chí Minh"
                         },
                         new
                         {
                             CampusId = 2,
-                            CreatedTime = new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5593),
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9299),
                             Location = "Hòa Lạc, Thạch Thất, Hà Nội",
                             Name = "FPT University Hà Nội"
                         },
                         new
                         {
                             CampusId = 3,
-                            CreatedTime = new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5595),
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9301),
                             Location = "Quận Ninh Kiều, TP. Cần Thơ",
                             Name = "FPT University Cần Thơ"
                         },
                         new
                         {
                             CampusId = 4,
-                            CreatedTime = new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5597),
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9302),
                             Location = "Ngũ Hành Sơn, TP. Đà Nẵng",
                             Name = "FPT University Đà Nẵng"
                         },
                         new
                         {
                             CampusId = 5,
-                            CreatedTime = new DateTime(2025, 3, 26, 23, 4, 54, 112, DateTimeKind.Local).AddTicks(5599),
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9303),
                             Location = "Khu Đô thị Khoa học Quy Hòa, TP. Quy Nhơn",
                             Name = "FPT University Quy Nhơn"
                         });
@@ -149,7 +145,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
 
-                    b.Property<int>("CampusId")
+                    b.Property<int?>("CampusId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("CreatedTime")
@@ -176,6 +172,53 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     b.HasIndex("CampusId");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentId = 1,
+                            CampusId = 1,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9416),
+                            Description = "Software Development Department",
+                            Name = "Software Engineering",
+                            Status = 1
+                        },
+                        new
+                        {
+                            DepartmentId = 2,
+                            CampusId = 2,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9418),
+                            Description = "Business & Marketing Department",
+                            Name = "Business Administration",
+                            Status = 1
+                        },
+                        new
+                        {
+                            DepartmentId = 3,
+                            CampusId = 3,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9420),
+                            Description = "AI Research Department",
+                            Name = "Artificial Intelligence",
+                            Status = 1
+                        },
+                        new
+                        {
+                            DepartmentId = 4,
+                            CampusId = 4,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9422),
+                            Description = "Cyber Security Department",
+                            Name = "Cyber Security",
+                            Status = 1
+                        },
+                        new
+                        {
+                            DepartmentId = 5,
+                            CampusId = 5,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9423),
+                            Description = "Data Analytics Department",
+                            Name = "Data Science",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("BoookingRoomUniversity.Assignment.Repositories.Entities.Role", b =>
@@ -242,6 +285,58 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     b.HasIndex("CampusId");
 
                     b.ToTable("Rooms");
+
+                    b.HasData(
+                        new
+                        {
+                            RoomId = 1,
+                            CampusId = 1,
+                            Capacity = 50,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9471),
+                            Description = "Lecture Hall",
+                            Name = "Room A101",
+                            Status = 0
+                        },
+                        new
+                        {
+                            RoomId = 2,
+                            CampusId = 2,
+                            Capacity = 30,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9475),
+                            Description = "Computer Lab",
+                            Name = "Room B202",
+                            Status = 0
+                        },
+                        new
+                        {
+                            RoomId = 3,
+                            CampusId = 3,
+                            Capacity = 40,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9476),
+                            Description = "Seminar Room",
+                            Name = "Room C303",
+                            Status = 1
+                        },
+                        new
+                        {
+                            RoomId = 4,
+                            CampusId = 4,
+                            Capacity = 20,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9478),
+                            Description = "Meeting Room",
+                            Name = "Room D404",
+                            Status = 1
+                        },
+                        new
+                        {
+                            RoomId = 5,
+                            CampusId = 5,
+                            Capacity = 60,
+                            CreatedTime = new DateTime(2025, 3, 27, 18, 31, 21, 171, DateTimeKind.Local).AddTicks(9480),
+                            Description = "Conference Hall",
+                            Name = "Room E505",
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("BoookingRoomUniversity.Assignment.Repositories.Entities.User", b =>
@@ -258,10 +353,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                     b.Property<DateTime?>("DeleteTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DepartmentId1")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -276,10 +368,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RoleId1")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedTime")
@@ -289,11 +378,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("DepartmentId1");
-
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
 
                     b.ToTable("Users");
                 });
@@ -316,19 +401,15 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
             modelBuilder.Entity("BoookingRoomUniversity.Assignment.Repositories.Entities.Booking", b =>
                 {
                     b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Room", "Room")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Room", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("RoomId1");
-
                     b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Room");
@@ -340,9 +421,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 {
                     b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Campus", "Campus")
                         .WithMany("Departments")
-                        .HasForeignKey("CampusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CampusId");
 
                     b.Navigation("Campus");
                 });
@@ -361,24 +440,12 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
             modelBuilder.Entity("BoookingRoomUniversity.Assignment.Repositories.Entities.User", b =>
                 {
                     b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Department", null)
                         .WithMany("Users")
-                        .HasForeignKey("DepartmentId1");
+                        .HasForeignKey("DepartmentId");
 
                     b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BoookingRoomUniversity.Assignment.Repositories.Entities.Role", null)
                         .WithMany("Users")
-                        .HasForeignKey("RoleId1");
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Department");
 
