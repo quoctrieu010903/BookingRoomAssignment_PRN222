@@ -16,16 +16,14 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Enums
     }
         public enum RoomStatus
     {
-        Available,
-        Booked,
-        Maintenance,
-        Closed
+        Active,
+        InActive,
+        Unavailable
     }
-    public enum DepartmentStatus
+
+    public enum ApprovalStatus
     {
-        Inactive = 0,
-        Active = 1,
-        Pending = 2,
-        Archived = 3
+        Approved,
+        Rejected
     }
 }

@@ -160,28 +160,31 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoomUser",
+                name: "BookingDetail",
                 columns: table => new
                 {
-                    RoomsRoomId = table.Column<int>(type: "int", nullable: false),
-                    UsersUserId = table.Column<int>(type: "int", nullable: false)
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    BookingId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoomUser", x => new { x.RoomsRoomId, x.UsersUserId });
+                    table.PrimaryKey("PK_BookingDetail", x => new { x.BookingId, x.RoomId });
+
                     table.ForeignKey(
-                        name: "FK_RoomUser_Rooms_RoomsRoomId",
-                        column: x => x.RoomsRoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "RoomId",
-                        onDelete: ReferentialAction.Cascade);
+                    name: "FK_BookingDetail_Bookings_BookingId",
+                    column: x => x.BookingId,
+                    principalTable: "Bookings",
+                    principalColumn: "BookingId",
+                    onDelete: ReferentialAction.Cascade);
+
                     table.ForeignKey(
-                        name: "FK_RoomUser_Users_UsersUserId",
-                        column: x => x.UsersUserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                    name: "FK_BookingDetail_Rooms_RoomId",
+                    column: x => x.RoomId,
+                    principalTable: "Rooms",
+                    principalColumn: "RoomId",
+                    onDelete: ReferentialAction.Cascade);
                 });
+
 
             migrationBuilder.InsertData(
                 table: "Campuses",

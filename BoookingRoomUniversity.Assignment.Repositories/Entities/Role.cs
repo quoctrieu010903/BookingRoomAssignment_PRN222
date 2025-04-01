@@ -1,19 +1,14 @@
-﻿using System;
+﻿using BookingRoomUniversity.Core.Base;
+using System;
 using System.Collections.Generic;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities;
 
-public partial class Role
+public partial class Role : BaseEntity
 {
     public int RoleId { get; set; }
 
     public string Name { get; set; } = null!;
-
-    public DateTime? CreatedTime { get; set; }
-
-    public DateTime? UpdatedTime { get; set; }
-
-    public DateTime? DeleteTime { get; set; }
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

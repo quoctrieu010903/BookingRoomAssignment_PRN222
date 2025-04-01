@@ -8,10 +8,10 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
 {
     public interface IUnitOfWork
     {
-        IGenericRepository<T> Repository<T>() where T : class;
-        Task<int> SaveChangesAsync();
+        IGenericRepository<T> GetRepository<T>() where T : class;
+        void Save();
         void BeginTransaction();
-        Task CommitTransactionAsync();
-        Task RollbackTransactionAsync();
+        void CommitTransaction();
+        void RollBack();
     }
 }

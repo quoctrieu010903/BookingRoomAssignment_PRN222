@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BoookingRoomUniversity.Assignment.Repositories.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities
 {
@@ -20,6 +22,7 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Entities
         public DbSet<Campus> Campuses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<BookingDetail> BookingDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,9 +36,55 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Entities
             modelBuilder.Entity<Booking>()
                 .Property(b => b.Status)
                 .HasConversion<int>();
-            modelBuilder.Entity<Department>()
-                .Property(d => d.Status)
-                .HasConversion<int>();
+
+            modelBuilder.Entity<BookingDetail>()
+           .HasKey(bd => bd.BookingDetailId);
+
+            modelBuilder.Entity<BookingDetail>()
+                .HasOne(bd => bd.Booking)
+                .WithMany(b => b.BookingDetails)
+                .HasForeignKey(bd => bd.BookingId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BookingDetail>()
+                .HasOne(bd => bd.Room)
+                .WithMany(r => r.BookingDetails)
+                .HasForeignKey(bd => bd.RoomId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RoomDetail>()
+            .HasKey(rd => rd.RoomDetailId);
+
+            modelBuilder.Entity<RoomDetail>()
+                .HasOne(rd => rd.Room)
+                .WithMany(r => r.RoomDetails)
+                .HasForeignKey(rd => rd.RoomId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RoomDetail>()
+                .HasOne(rd => rd.Slot)
+                .WithMany(s => s.RoomDetails)
+                .HasForeignKey(rd => rd.SlotId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BookingCancel>()
+    .HasOne(bc => bc.BookingDetail)
+    .WithMany(bd => bd.BookingCancels)
+    .HasForeignKey(bc => bc.BookingDetailId)
+    .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BookingCancel>()
+                .HasOne(bc => bc.Booking)
+                .WithMany(b => b.BookingCancels)
+                .HasForeignKey(bc => bc.BookingId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BookingCancel>()
+                .HasOne(bc => bc.User)
+                .WithMany(u => u.BookingCancels)
+                .HasForeignKey(bc => bc.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
 
             modelBuilder.Entity<Campus>().HasData(
@@ -46,24 +95,42 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Entities
         new Campus { CampusId = 5, Name = "FPT University Quy Nhơn", Location = "Khu Đô thị Khoa học Quy Hòa, TP. Quy Nhơn", CreatedTime = DateTime.Now }
           );
             modelBuilder.Entity<Department>().HasData(
-       new Department { DepartmentId = 1, Name = "Software Engineering", Description = "Software Development Department", Status = DepartmentStatus.Active, CreatedTime = DateTime.Now, CampusId = 1 },
-       new Department { DepartmentId = 2, Name = "Business Administration", Description = "Business & Marketing Department", Status = DepartmentStatus.Active, CreatedTime = DateTime.Now, CampusId = 2 },
-       new Department { DepartmentId = 3, Name = "Artificial Intelligence", Description = "AI Research Department", Status = DepartmentStatus.Active, CreatedTime = DateTime.Now, CampusId = 3 },
-       new Department { DepartmentId = 4, Name = "Cyber Security", Description = "Cyber Security Department", Status = DepartmentStatus.Active, CreatedTime = DateTime.Now, CampusId = 4 },
-       new Department { DepartmentId = 5, Name = "Data Science", Description = "Data Analytics Department", Status = DepartmentStatus.Active, CreatedTime = DateTime.Now, CampusId = 5 }
+       new Department { DepartmentId = 1, Name = "Software Engineering", Description = "Software Development Department", CreatedTime = DateTime.Now, CampusId = 1 },
+       new Department { DepartmentId = 2, Name = "Business Administration", Description = "Business & Marketing Department",  CreatedTime = DateTime.Now, CampusId = 2 },
+       new Department { DepartmentId = 3, Name = "Artificial Intelligence", Description = "AI Research Department", CreatedTime = DateTime.Now, CampusId = 3 },
+       new Department { DepartmentId = 4, Name = "Cyber Security", Description = "Cyber Security Department", CreatedTime = DateTime.Now, CampusId = 4 },
+       new Department { DepartmentId = 5, Name = "Data Science", Description = "Data Analytics Department", CreatedTime = DateTime.Now, CampusId = 5 }
         );
             modelBuilder.Entity<Room>().HasData(
-       new Room { RoomId = 1, Name = "Room A101", Capacity = 50, Description = "Lecture Hall", Status = RoomStatus.Available, CreatedTime = DateTime.Now, CampusId = 1 },
-       new Room { RoomId = 2, Name = "Room B202", Capacity = 30, Description = "Computer Lab", Status = RoomStatus.Available, CreatedTime = DateTime.Now, CampusId = 2 },
-       new Room { RoomId = 3, Name = "Room C303", Capacity = 40, Description = "Seminar Room", Status = RoomStatus.Booked, CreatedTime = DateTime.Now, CampusId = 3 },
-       new Room { RoomId = 4, Name = "Room D404", Capacity = 20, Description = "Meeting Room", Status = RoomStatus.Booked, CreatedTime = DateTime.Now, CampusId = 4 },
-       new Room { RoomId = 5, Name = "Room E505", Capacity = 60, Description = "Conference Hall", Status = RoomStatus.Available, CreatedTime = DateTime.Now, CampusId = 5 }
-   );
+                new Room { RoomId = 1, Name = "Room A101", Capacity = 50, Status = RoomStatus.Active, CreatedTime = DateTime.Now, CampusId = 1 },
+                new Room { RoomId = 2, Name = "Room B202", Capacity = 30, Status = RoomStatus.Unavailable, CreatedTime = DateTime.Now, CampusId = 2 },
+                new Room { RoomId = 3, Name = "Room C303", Capacity = 40, Status = RoomStatus.Active, CreatedTime = DateTime.Now, CampusId = 3 },
+                new Room { RoomId = 4, Name = "Room D404", Capacity = 20, Status = RoomStatus.Active, CreatedTime = DateTime.Now, CampusId = 4 },
+                new Room { RoomId = 5, Name = "Room E505", Capacity = 60, Status = RoomStatus.Active, CreatedTime = DateTime.Now, CampusId = 5 }
+            );
 
 
 
+            
+           }
 
+        public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BookingRoomUniversityDbContext>
+        {
+            public BookingRoomUniversityDbContext CreateDbContext(string[] args)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+
+                var optionsBuilder = new DbContextOptionsBuilder<BookingRoomUniversityDbContext>();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"),
+                    b => b.MigrationsAssembly("BoookingRoomUniversity.Assignment.Repositories"));
+
+                return new BookingRoomUniversityDbContext(optionsBuilder.Options);
+            }
         }
+
 
 
     }

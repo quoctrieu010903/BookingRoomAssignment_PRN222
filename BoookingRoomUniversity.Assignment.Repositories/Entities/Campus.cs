@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BookingRoomUniversity.Core.Base;
+using System;
 using System.Collections.Generic;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities;
 
-public partial class Campus
+public partial class Campus : BaseEntity
 {
     public int CampusId { get; set; }
 
@@ -11,13 +12,8 @@ public partial class Campus
 
     public string Location { get; set; } = null!;
 
-    public DateTime? CreatedTime { get; set; }
+    public virtual ICollection<Department> Departments { get; set; }
 
-    public DateTime? UpdatedTime { get; set; }
-
-    public DateTime? DeleteTime { get; set; }
-
-    public virtual ICollection<Department> Departments { get; set; } = new List<Department>();
-
-    public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
+    public virtual ICollection<User> Users { get; set; }
+    public virtual ICollection<Room> Rooms { get; set; }
 }

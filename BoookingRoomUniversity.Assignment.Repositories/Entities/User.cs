@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BookingRoomUniversity.Core.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Entities;
 
-public partial class User
+public partial class User : BaseEntity
 {
     public int UserId { get; set; }
 
@@ -14,12 +15,6 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public DateTime? CreatedTime { get; set; }
-
-    public DateTime? UpdatedTime { get; set; }
-
-    public DateTime? DeleteTime { get; set; }
-    
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
@@ -29,5 +24,6 @@ public partial class User
     public int? RoleId { get; set; }
     public virtual Role Role { get; set; } = null!;
 
-    public virtual ICollection<Room> Rooms { get; set; } = new List<Room>();
+    public virtual ICollection<BookingCancel> BookingCancels { get; set; }
+
 }

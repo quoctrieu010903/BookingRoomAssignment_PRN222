@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BoookingRoomUniversity.Assignment.Repositories.Entities;
+﻿using BoookingRoomUniversity.Assignment.Repositories.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BoookingRoomUniversity.Assignment.Repositories.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private  BookingRoomUniversityDbContext _context;
+        private readonly BookingRoomUniversityDbContext _context;
         private IDbContextTransaction _transaction;
-
 
         public UnitOfWork(BookingRoomUniversityDbContext context)
         {
             _context = context;
-
         }
 
         public void BeginTransaction()
@@ -25,59 +18,51 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
             _transaction = _context.Database.BeginTransaction();
         }
 
-        public async Task CommitTransactionAsync()
+        public void CommitTransaction()
         {
             try
             {
-                await _context.SaveChangesAsync();
-                await _transaction.CommitAsync();
+                _context.SaveChanges();
+                _transaction.Commit();
             }
             catch
             {
-                await RollbackTransactionAsync();
+                RollBack();
                 throw;
             }
             finally
             {
-                if (_transaction != null)
-                {
-                    await _transaction.DisposeAsync();
-                    _transaction = null;
-                }
+                _transaction?.Dispose();
+                _transaction = null;
             }
         }
 
-        public IGenericRepository<T> Repository<T>() where T : class
-        {
-            return new GenericRepository<T>(_context);
-
-        }
-
-        public async Task RollbackTransactionAsync()
+        public void RollBack()
         {
             try
             {
-                await _transaction.RollbackAsync();
+                _transaction?.Rollback();
             }
             finally
             {
-                if (_transaction != null)
-                {
-                    await _transaction.DisposeAsync();
-                    _transaction = null;
-                }
+                _transaction?.Dispose();
+                _transaction = null;
             }
         }
 
-        public async Task<int> SaveChangesAsync()
+        public IGenericRepository<T> GetRepository<T>() where T : class
         {
-            return await _context.SaveChangesAsync();
+            return new GenericRepository<T>(_context);
         }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
         public void Dispose()
         {
             _context.Dispose();
         }
     }
-
-
 }

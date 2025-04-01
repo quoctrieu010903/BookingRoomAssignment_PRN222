@@ -10,12 +10,12 @@ namespace BoookingRoomUniversity.Assignment.Repositories.Data
     public interface IGenericRepository<T> where T : class
     {
         IQueryable<T> Entities { get; }
-        IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        List<T> GetAll();
 
-        Task<T> GetByID(int id);
-        Task Create(T entity);
-        Task Update(T entity);
-        Task Delete(T entity);
-
+        T GetByID(int id);
+        void Create(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
+
 }

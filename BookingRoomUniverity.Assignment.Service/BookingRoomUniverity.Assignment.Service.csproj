@@ -12,4 +12,8 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Permission\" />
+  </ItemGroup>
+
 </Project>
